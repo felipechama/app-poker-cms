@@ -1,0 +1,15 @@
+{
+  "name": "app-poker-cms",
+  "version": "1.0.0",
+  "description": "Keystone JS CMS for App Poker Brothers",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Felipe Chama",
+  "license": "ISC",
+  "dependencies": {
+    "keystone": "^4.0.0",
+    "underscore": "^1.9.1"
+  }
+}
