@@ -3,6 +3,8 @@ var Types = keystone.Field.Types;
 
 var Tournament = new keystone.List('Tournament', {
   label: 'Torneiros',
+  plural: 'Torneiros',
+  singular: 'Torneio',
   nodelete: false,
   defaultSort: '-startAt',
 });
@@ -25,6 +27,11 @@ Tournament.add({
     utc: true,
     initial: true,
     label: 'Início do torneio',
+  },
+  stepsDate: {
+    type: Types.DateArray,
+    utc: true,
+    label: 'Data das etapas',
   },
   score: {
     type: Types.NumberArray,

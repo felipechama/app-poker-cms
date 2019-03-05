@@ -5,7 +5,7 @@ var User = new keystone.List('User', {
   label: 'Usuários',
   hidden: true,
   noedit: true,
-  nodelete: false,
+  nodelete: true,
 });
 
 User.add({

@@ -4,6 +4,8 @@ var path = require('path');
 
 var Player = new keystone.List('Player', {
   label: 'Jogadores',
+  plural: 'Jogadores',
+  singular: 'Jogador',
   nodelete: false,
   autokey: {
     path: 'slug',
