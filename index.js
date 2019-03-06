@@ -4,6 +4,8 @@ var keystone = require('keystone');
 
 keystone.init({
   'name': 'Poker Brothers CMS',
+  'brand': 'Poker Brothers CMS',
+  'port': process.env.PORT || 3000,
   'static': [],
   'auto update': true,
   'mongo': process.env.DB_URI,
