@@ -1,6 +1,6 @@
 require('dotenv').config();
 
-var keystone = require('keystone');
+const keystone = require('keystone');
 
 keystone.init({
   'name': 'Poker Brothers CMS',
@@ -15,5 +15,6 @@ keystone.init({
 });
 
 keystone.import('./models');
+keystone.set('routes', require('./routes'));
 
 keystone.start();
