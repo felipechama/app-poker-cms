@@ -17,4 +17,5 @@ Create a ``dotenv`` file:
 * ``DB_URI`` - MongoDB database server
 
 ### API
-* ``/api/players`` - All players
+* ``/api/players``
+* ``/api/tournaments``
