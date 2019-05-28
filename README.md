@@ -19,4 +19,5 @@ Create a ``dotenv`` file:
 ### API
 * ``/api/players``
 * ``/api/tournaments``
+* ``/api/tournament/:id``
 * ``/api/page/:slug``

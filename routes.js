@@ -15,6 +15,11 @@ routes.get('/api/tournaments', async (req, res) => {
   res.send(allTournaments);
 });
 
+routes.get('/api/tournament/:id', async (req, res) => {
+  const tournamentData = await getTournament(req.params.id);
+  res.send(tournamentData);
+});
+
 routes.get('/api/page/:slug', async (req, res) => {
   const pageData = await getPage(req.params.slug);
   res.send(pageData);
