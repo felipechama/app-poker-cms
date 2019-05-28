@@ -1,27 +1,33 @@
 const keystone = require('keystone');
 const { sortByName } = require('./utils');
 
-const getPlayers = (req, res) => {
-  const Player = keystone.list('Player');
+const getPlayers = async () => {
+  const PlayerModel = keystone.list('Player');
 
-  Player.model.find({}, function(err, items) {
+  const playersData = await PlayerModel.model.find({}, function(err, items) {
     if(err) {
-      return res.send(err);
+      console.log('err', err);
+      return [];
     }
 
-    const players = [];
-
-    for(key in items) {
-      players.push({
-        name: items[key].name,
-        slug: items[key].slug,
-      });
-    }
-
-    players.sort(sortByName);
-
-    res.send(players)
+    return items;
   });
+
+  const players = [];
+
+  for(key in playersData) {
+    players.push({
+      id: playersData[key]._id,
+      name: playersData[key].name,
+      slug: playersData[key].slug,
+    });
+  }
+
+  players.sort(sortByName);
+
+  return players;
 };
 
-module.exports = getPlayers;
+module.exports = {
+  getPlayers,
+};

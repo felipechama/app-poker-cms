@@ -1,30 +1,32 @@
 const keystone = require('keystone');
 
-const getPage = (req, res) => {
-  const Page = keystone.list('Page');
-  const pageSlug = req.params.slug;
+const getPage = async (pageSlug) => {
+  const PageModel = keystone.list('Page');
   const filter = {
     slug: pageSlug,
   };
 
-  Page.model.findOne(filter, function(err, data) {
+  const pageData = await PageModel.model.findOne(filter, function(err, item) {
     if(err) {
-      return res.send(err);
+      console.log('err', err);
+      return null;
     }
 
-    if(!data) {
-      return res.send({
-        err: 'Página não encontrada',
-      });
-    }
-
-    const page = {
-      title: data.title,
-      content: data.content,
-    };
-
-    res.send(page);
+    return item;
   });
+
+  if(!pageData) {
+    return {
+      err: 'Página não encontrada',
+    };
+  }
+
+  return {
+    title: pageData.title,
+    content: pageData.content,
+  };
 };
 
-module.exports = getPage;
+module.exports = {
+  getPage,
+};

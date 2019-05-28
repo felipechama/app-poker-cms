@@ -1,30 +1,36 @@
 const keystone = require('keystone');
 
-const getTournaments = (req, res) => {
-  const Tournament = keystone.list('Tournament');
+const getTournaments = async () => {
+  const TournamentModel = keystone.list('Tournament');
   const options = {
     sort: {
       'startAt': -1,
     }
   };
 
-  Tournament.model.find({}, [], options, function(err, items) {
+  const tournamentsData = await TournamentModel.model.find({}, [], options, function(err, items) {
     if(err) {
-      return res.send(err);
+      console.log('err', err);
+      return [];
     }
 
-    const tournaments = [];
-
-    for(key in items) {
-      tournaments.push({
-        name: items[key].name,
-        startAt: items[key].startAt,
-        createdAt: items[key].createdAt,
-      });
-    }
-
-    res.send(tournaments)
+    return items;
   });
+
+  const tournaments = [];
+
+  for(key in tournamentsData) {
+    tournaments.push({
+      id: tournamentsData[key]._id,
+      name: tournamentsData[key].name,
+      startAt: tournamentsData[key].startAt,
+      createdAt: tournamentsData[key].createdAt,
+    });
+  }
+
+  return tournaments;
 };
 
-module.exports = getTournaments;
+module.exports = {
+  getTournaments,
+};
