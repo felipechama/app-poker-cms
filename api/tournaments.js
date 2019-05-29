@@ -18,7 +18,7 @@ const includeScoreAndJackpotAndPositionPlayers = (ranking, steps, scores) => {
       if(position >= 0) {
         // here
         // incluir no CMS replace de score para as posisões que houverem acordo
-        scoreAcumulate += scores[position];
+        scoreAcumulate += scores[position] ? scores[position] : scores[scores.length - 1];
         jackpotAcumulate += step.jackpot[position] ? step.jackpot[position] : 0;
         stepsPositions.push(position + 1);
       } else {
