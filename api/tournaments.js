@@ -1,7 +1,6 @@
 const keystone = require('keystone');
 const { getPlayers } = require('./players');
 const { getSteps } = require('./steps');
-const { formatDateToBr } = require('./utils');
 
 const getPlayersInTournament = (players, steps) => (
   players.filter(player => steps.filter(step => step.classification.indexOf(player.id) > -1).length > 0)
@@ -108,7 +107,7 @@ const getTournament = async (tournamentId) => {
   const steps = await getSteps(tournamentData._id);
   const allPlayers = await getPlayers();
 
-  const stepsDate = tournamentData.stepsDate.map(formatDateToBr);
+  const stepsDate = tournamentData.stepsDate;
   const ranking = getRanking(tournamentData, steps, allPlayers);
   const jackpotAcumulate = getJackpotTournament(10, steps);
 
