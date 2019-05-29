@@ -33,16 +33,15 @@ Step.add({
     type: Types.Relationship,
     label: 'Classificação',
   },
-  halfScore: {
-    type: Types.Boolean,
-    label: 'Acordo na fase de HU (um contra um)',
-    default: false,
-    note: 'De acordo com a regra, caso for feito acordo o 1º e 2º colocado vão ficar com 80 pontos cada.',
+  replaceScore: {
+    type: Types.NumberArray,
+    label: 'Acordo na fase HU',
+    note: 'Liste em ordem crescente a pontuação de cada jogador que fez acordo. Ex: Caso queira que os 2 primeiros jogadores fiquem com 80 pontos, coloque 80 duas vezes.',
   },
   active: {
     type: Types.Boolean,
     label: 'Publicar etapa',
-    default: true,
+    default: false,
   },
 });
 

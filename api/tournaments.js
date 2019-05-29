@@ -16,11 +16,15 @@ const includeScoreAndJackpotAndPositionPlayers = (ranking, steps, scores) => {
       const position = step.classification.indexOf(player.id);
 
       if(position >= 0) {
-        // here
-        // incluir no CMS replace de score para as posisões que houverem acordo
-        scoreAcumulate += scores[position] ? scores[position] : scores[scores.length - 1];
         jackpotAcumulate += step.jackpot[position] ? step.jackpot[position] : 0;
         stepsPositions.push(position + 1);
+
+        if(step.replaceScore && step.replaceScore.length && step.replaceScore[position]) {
+          scoreAcumulate += step.replaceScore[position];
+        } else {
+          scoreAcumulate += scores[position] ? scores[position] : scores[scores.length - 1];
+        }
+
       } else {
         stepsPositions.push(null);
       }
