@@ -20,6 +20,7 @@ const getSteps = async (tournamentId) => {
 
   for(key in stepsData) {
     steps.push({
+      jackpot: stepsData[key].jackpot,
       stepDate: stepsData[key].stepDate,
       classification: stepsData[key].classification,
     });

@@ -7,9 +7,10 @@ const getPlayersInTournament = (players, steps) => (
   players.filter(player => steps.filter(step => step.classification.indexOf(player.id) > -1).length > 0)
 );
 
-const includeScoreAndPositionPlayers = (ranking, steps, scores) => {
+const includeScoreAndJackpotAndPositionPlayers = (ranking, steps, scores) => {
   return ranking.map(player => {
-    let totalScore = 0;
+    let scoreAcumulate = 0;
+    let jackpotAcumulate = 0;
     let stepsPositions = [];
 
     steps.forEach(step => {
@@ -18,42 +19,63 @@ const includeScoreAndPositionPlayers = (ranking, steps, scores) => {
       if(position >= 0) {
         // here
         // incluir no CMS replace de score para as posisões que houverem acordo
-        totalScore += scores[position];
+        scoreAcumulate += scores[position];
+        jackpotAcumulate += step.jackpot[position] ? step.jackpot[position] : 0;
         stepsPositions.push(position + 1);
       } else {
         stepsPositions.push(null);
       }
     });
 
-    player.scoreAcumulate = totalScore;
+    player.jackpotAcumulate = jackpotAcumulate;
+    player.scoreAcumulate = scoreAcumulate;
     player.stepsPositions = stepsPositions;
 
     return player;
   });
 };
 
-const sortBy = (key) => {
-  return (a, b) => {
-    if(a[key] < b[key]) {
-      return 1;
-    }
+const sortByScoreAndPositions = (a, b) => {
+  let x = b.scoreAcumulate - a.scoreAcumulate;
 
-    if(a[key] > b[key]) {
-      return -1;
-    }
+  // TODO: melhorar esse trecho do código
+  if(a.scoreAcumulate === b.scoreAcumulate) {
+    /**
+     * Regra: caso tenha dois ou mais jogadores com a mesma pontuação (score),
+     *        posiciona jogadores de acordo com a posição em cada etapa.
+     */
+    const aStepsPositions = a.stepsPositions.filter(value => value !== null);
+    const bStepsPositions = b.stepsPositions.filter(value => value !== null);
+    const aMinPosition = Math.min(...aStepsPositions);
+    const bMinPosition = Math.min(...bStepsPositions);
+    let found = false;
 
-    return 0;
-  };
+    if(aMinPosition <= bMinPosition) {
+      b.stepsPositions.forEach(bPosition => {
+        if(!found && bPosition > aMinPosition) {
+          found = true; // para a verificação
+          x = false; // troca 'a' por 'b' de posição
+        }
+      });
+    } else {
+      a.stepsPositions.forEach(aPosition => {
+        if(!found && aPosition > bMinPosition) {
+          found = true; // para a verificação
+          x = true; // troca 'b' por 'a' de posição
+        }
+      });
+    }
+  }
+
+  return x;
 };
 
 const getRanking = (tournament, steps, players) => {
   let ranking = [];
 
   ranking = getPlayersInTournament(players, steps);
-  ranking = includeScoreAndPositionPlayers(ranking, steps, tournament.score);
-  ranking.sort(sortBy('scoreAcumulate'));
-  // here
-  // ordenar por stepsPositions
+  ranking = includeScoreAndJackpotAndPositionPlayers(ranking, steps, tournament.score);
+  ranking.sort(sortByScoreAndPositions);
 
   return ranking;
 };
