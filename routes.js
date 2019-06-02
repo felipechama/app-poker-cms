@@ -1,28 +1,34 @@
 const express = require('express');
-const routes = express.Router();
+const app = express();
 
 const { getPage } = require('./api/page');
 const { getPlayers } = require('./api/players');
 const { getTournaments, getTournament } = require('./api/tournaments');
 
-routes.get('/api/players', async (req, res) => {
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+app.get('/api/players', async (req, res) => {
   const allPlayers = await getPlayers();
   res.send(allPlayers);
 });
 
-routes.get('/api/tournaments', async (req, res) => {
+app.get('/api/tournaments', async (req, res) => {
   const allTournaments = await getTournaments();
   res.send(allTournaments);
 });
 
-routes.get('/api/tournament/:id', async (req, res) => {
+app.get('/api/tournament/:id', async (req, res) => {
   const tournamentData = await getTournament(req.params.id);
   res.send(tournamentData);
 });
 
-routes.get('/api/page/:slug', async (req, res) => {
+app.get('/api/page/:slug', async (req, res) => {
   const pageData = await getPage(req.params.slug);
   res.send(pageData);
 });
 
-module.exports = routes;
+module.exports = app;
