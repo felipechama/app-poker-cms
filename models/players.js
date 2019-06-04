@@ -37,7 +37,11 @@ Player.add({
     storage: PlayerImgStorage,
     mimetype: '.jpeg, .jpg, .gif, .png',
   },
-  publishedAt: Date,
+  championships: {
+    type: Types.TextArray,
+    label: 'Torneio que foi campeão',
+    note: 'Digite o nome do torneio ou ano que foi premiado.',
+  },
 });
 
 Player.defaultColumns = 'name, slug|20%';

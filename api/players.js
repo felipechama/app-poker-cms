@@ -31,6 +31,7 @@ const getPlayers = async () => {
       id: playersData[key]._id,
       name: playersData[key].name,
       slug: playersData[key].slug,
+      championships: playersData[key].championships,
     });
   }
 
