@@ -43,7 +43,7 @@ Tournament.add({
 Tournament.schema.pre('save', function(next) {
   this.stepsDate = this.stepsDate.map(date => {
     const newDate = date;
-    newDate.setHours(12, 0, 0, 0);
+    newDate.setHours(20, 59, 0, 0);
     newDate.setDate(newDate.getDate() + 1);
 
     return newDate;
